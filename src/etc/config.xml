@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Sutunam
+ * @copyright Copyright (c) 2024 Sutunam (http://www.sutunam.com/)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <linked_product>
+            <general>
+                <enable>1</enable>
+                <show_attribute_text>1</show_attribute_text>
+                <show_available_products_count>1</show_available_products_count>
+                <show_stock_status>1</show_stock_status>
+                <show_on_plp>1</show_on_plp>
+                <show_on_pdp>1</show_on_pdp>
+                <show_stock_status_text_on_plp>0</show_stock_status_text_on_plp>
+                <show_stock_status_text_on_pdp>1</show_stock_status_text_on_pdp>
+            </general>
+        </linked_product>
+    </default>
+</config>

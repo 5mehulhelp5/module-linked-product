@@ -1,0 +1,74 @@
+<?php
+/**
+ * @author    Sutunam
+ * @copyright Copyright (c) 2024 Sutunam (http://www.sutunam.com/)
+ */
+
+declare(strict_types=1);
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundHelper
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+use Magento\Catalog\Block\Product\View;
+use Magento\Framework\Escaper;
+use Sutunam\LinkedProduct\Model\Config as ConfigData;
+use Sutunam\LinkedProduct\ViewModel\ProductList;
+
+/** @var Escaper $escaper */
+
+/** @var ConfigData $configData */
+/* @var $block View */
+
+$configData = $this->helper(ConfigData::class);
+
+if (!$configData->isEnable() || !$configData->isShowOnProductView()) {
+    return;
+}
+
+/** @var \Sutunam\LinkedProduct\ViewModel\ProductList $productListViewModel */
+$productListViewModel = $block->getData('view_model');
+
+$showStockStatusText = $configData->isStockStatusTextProductView();
+$linkedProducts = $productListViewModel->getLinkedItems([$block->getProduct()]);
+
+if (count($linkedProducts) < 1) {
+    return;
+}
+
+// Current product
+$product = $block->getProduct();
+
+// Add the current product to the linked products list
+array_unshift($linkedProducts, $product);
+$showAttributeText = $configData->isShowAttributeText();
+$showStockStatus = $configData->isShowStockStatus();
+$attributeOptions = $productListViewModel->getOptionsSortOrder();
+$attributeToLink = $product->getData('attribute_to_link');
+// Sort linked products by attribute value order
+usort($linkedProducts, function ($a, $b) use ($attributeOptions, $attributeToLink) {
+    if (!isset($attributeOptions[$a->getData($attributeToLink)]) ||
+        !isset($attributeOptions[$b->getData($attributeToLink)])
+    ) {
+        return 1;
+    }
+
+    $sortOrderA = (int)$attributeOptions[$a->getData($attributeToLink)];
+    $sortOrderB = (int)$attributeOptions[$b->getData($attributeToLink)];
+
+    return $sortOrderA <=> $sortOrderB;
+});
+?>
+
+<div class="linked-product-list">
+    <?php foreach ($linkedProducts as $linkedProduct): ?>
+        <?= $block->getLayout()
+            ->createBlock(View::class)
+            ->setProduct($linkedProduct)
+            ->setCurrentProduct($product)
+            ->setData('image_display_area', 'product_page_linked_product')
+            ->setTemplate('Sutunam_LinkedProduct::product/linked/item.phtml')
+            ->toHtml();
+        ?>
+    <?php endforeach ?>
+</div>

@@ -1,0 +1,74 @@
+<?php
+/**
+ * @author    Sutunam
+ * @copyright Copyright (c) 2024 Sutunam (http://www.sutunam.com/)
+ */
+
+declare(strict_types=1);
+
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Sutunam\LinkedProduct\Model\Config as ConfigData;
+use Magento\Catalog\Block\Product\View;
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundHelper
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+
+/** @var ConfigData $configData */
+$configData = $this->helper(ConfigData::class);
+
+if (!$configData->isEnable() || !$configData->isShowOnProductListing()) {
+    return;
+}
+
+$showAvailableProductsCount = $configData->isShowAvailableProductsCount();
+$showStockStatusText = $configData->isStockStatusTextProductListing();
+$productsCountText = $configData->getAvailableProductsCountText();
+
+/** @var Product $product */
+$product = $block->getProduct();
+
+if (!$product) {
+    return;
+}
+
+$attributeToLink = $product->getData('attribute_to_link');
+
+if (!$product->hasData('linked_products') &&
+    !$product->hasData('available_products_count')) {
+    return;
+}
+?>
+
+<?php if ($showAvailableProductsCount):
+    $count = (int) $product->getData('available_products_count') ?>
+    <?php if (isset($productsCountText[$attributeToLink])): ?>
+    <div class="flex w-full pt-3">
+        <?php if ($count > 1): ?>
+            <?= $escaper->escapeHtml(__($productsCountText[$attributeToLink]['plural'], $count)) ?>
+        <?php endif; ?>
+        <?php if ($count === 1): ?>
+            <?= $escaper->escapeHtml(__($productsCountText[$attributeToLink]['singular'])) ?>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+<?php else: ?>
+    <div class="linked-product-list">
+        <?php foreach ($product->getData('linked_products') as $linkedProduct): ?>
+            <?= $block->getLayout()
+                ->createBlock(view::class)
+                ->setProduct($linkedProduct)
+                ->setCurrentProduct($product)
+                ->setData('show_stock_status_text', $showStockStatusText)
+                ->setData('image_display_area', 'product_listing_linked_product')
+                ->setTemplate('Sutunam_LinkedProduct::product/linked/item.phtml')
+                ->toHtml();
+            ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

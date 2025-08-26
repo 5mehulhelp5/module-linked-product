@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Sutunam
+ * @copyright Copyright (c) 2024 Sutunam (http://www.sutunam.com/)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
+        <plugin name="sutunam_linked_product_set_template"
+                type="Sutunam\LinkedProduct\Plugin\Magento\CatalogWidget\Block\Product\ProductsList"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin name="sutunam_linked_product_get_loaded_product_collection"
+                type="Sutunam\LinkedProduct\Plugin\Magento\Catalog\Block\Product\ListProduct"/>
+    </type>
+    <type name="Sutunam\LinkedProduct\ViewModel\ProductList">
+        <arguments>
+            <argument name="collectionProcessor" xsi:type="object">
+                Magento\Catalog\Model\Api\SearchCriteria\ProductCollectionProcessor
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Upsell">
+        <plugin name="sutunam_linked_product_upsell_get_item_info"
+                type="Sutunam\LinkedProduct\Plugin\Magento\Catalog\Upsell\ProductListItem"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Related">
+        <plugin name="sutunam_linked_product_related_get_item_info"
+                type="Sutunam\LinkedProduct\Plugin\Magento\Catalog\Related\ProductListItem"/>
+    </type>
+
+</config>

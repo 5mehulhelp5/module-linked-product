@@ -1,0 +1,67 @@
+<?php
+/**
+ * @author    Sutunam
+ * @copyright Copyright (c) 2024 Sutunam (http://www.sutunam.com/)
+ */
+
+declare(strict_types=1);
+
+use Magento\Catalog\Block\Product\AbstractProduct;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Sutunam\LinkedProduct\Model\Config as ConfigData;
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundHelper
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var AbstractProduct $block */
+/** @var Escaper $escaper */
+
+
+/** @var ConfigData $configData */
+$configData = $this->helper(ConfigData::class);
+
+/** @var Magento\Catalog\Model\Product $product */
+$product = $block->getData('product');
+
+if (!$product) {
+    return;
+}
+
+$attributeToLink = $product->getData('attribute_to_link');
+
+if (!$attributeToLink) {
+    return;
+}
+
+$currentProduct = $block->getCurrentProduct();
+$isFirstProduct = $currentProduct->getId() && $currentProduct->getId() === $product->getId();
+
+$showAttributeText = $configData->isShowAttributeText();
+
+$showStockStatusText = $block->getData('show_stock_status_text');
+$imageDisplayArea = $block->getData('image_display_area');
+$imageCustomAttributes = $product->getData('image_custom_attributes')
+    ?? $block->getData('image_custom_attributes')
+    ?? [];
+?>
+<div id="product-linked-item_<?= /* @noEscape */ $product->getId() ?>"
+     class="product-item">
+    <a href="<?= $block->escapeUrl($block->getProductUrl($product)) ?>"
+       class="action photo border <?= !$isFirstProduct ? ' border-transparent' : ' border-gray-600 disabled' ?>"
+    >
+        <?= $block->getImage($product, $imageDisplayArea)->toHtml(); ?>
+    </a>
+    <div class="product-info flex flex-col grow w-full">
+        <div class="mt-auto pt-2 flex flex-wrap justify-center items-center">
+            <?php $textClass = $isFirstProduct ? 'text-gray-600' : 'text-gray-400' ?>
+            <div class="transition-all duration-300 w-auto justify-center text-xs mr-auto
+            <?= $escaper->escapeHtmlAttr($textClass) ?>">
+                <?php if ($showAttributeText): ?>
+                    <?= $escaper->escapeHtml($product->getAttributeText($attributeToLink)) ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>

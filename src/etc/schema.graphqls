@@ -1,0 +1,3 @@
+interface ProductInterface {
+    linked_products: [ProductInterface] @doc(description: "Linked Products.") @resolver(class: "Sutunam\\LinkedProduct\\Model\\Resolver\\Batch\\LinkedProducts")
+}

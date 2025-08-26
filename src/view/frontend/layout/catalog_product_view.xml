@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author    Sutunam
+ * @copyright Copyright (c) 2024 Sutunam (http://www.sutunam.com/)
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.main">
+            <block
+                name="product.info.linked"
+                class="Magento\Catalog\Block\Product\View"
+                template="Sutunam_LinkedProduct::product/view/linked.phtml"
+                before="-">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Sutunam\LinkedProduct\ViewModel\ProductList</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content.aside">
+            <referenceBlock name="related.product.addto">
+                <block
+                    name="related.product.list.linked"
+                    class="Magento\Catalog\Block\Product\ProductList\Item\Block"
+                    template="Sutunam_LinkedProduct::product/list/linked.phtml"
+                    before="-">
+                </block>
+            </referenceBlock>
+            <referenceBlock name="upsell.product.addto">
+                <block
+                    name="upsell.product.list.linked"
+                    class="Magento\Catalog\Block\Product\ProductList\Item\Block"
+                    template="Sutunam_LinkedProduct::product/list/linked.phtml"
+                    before="-">
+                </block>
+            </referenceBlock>
+        </referenceContainer>
+    </body>
+</page>
