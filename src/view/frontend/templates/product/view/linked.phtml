@@ -66,7 +66,7 @@ usort($linkedProducts, function ($a, $b) use ($attributeOptions, $attributeToLin
             ->createBlock(View::class)
             ->setProduct($linkedProduct)
             ->setCurrentProduct($product)
-            ->setData('image_display_area', 'product_page_linked_product')
+            ->setData('image_display_area', 'product_listing_linked_product')
             ->setTemplate('Sutunam_LinkedProduct::product/linked/item.phtml')
             ->toHtml();
         ?>

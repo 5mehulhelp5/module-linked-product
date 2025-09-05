@@ -51,15 +51,33 @@ $imageCustomAttributes = $product->getData('image_custom_attributes')
     <a href="<?= $block->escapeUrl($block->getProductUrl($product)) ?>"
        class="action photo border <?= !$isFirstProduct ? ' border-transparent' : ' border-gray-600 disabled' ?>"
     >
-        <?= $block->getImage($product, $imageDisplayArea)->toHtml(); ?>
+        <?= $block->getImage($product, $imageDisplayArea)
+            ->setTemplate('Sutunam_LinkedProduct::product/linked/image.phtml')
+            ->setData('custom_attributes', $imageCustomAttributes)
+            ->setProductId($product->getId())
+            ->toHtml(); ?>
     </a>
     <div class="product-info flex flex-col grow w-full">
         <div class="mt-auto pt-2 flex flex-wrap justify-center items-center">
             <?php $textClass = $isFirstProduct ? 'text-gray-600' : 'text-gray-400' ?>
-            <div class="transition-all duration-300 w-auto justify-center text-xs mr-auto
+            <div class="transition-all duration-300 w-auto justify-center text-xs mr-auto attribute-option
             <?= $escaper->escapeHtmlAttr($textClass) ?>">
-                <?php if ($showAttributeText): ?>
-                    <?= $escaper->escapeHtml($product->getAttributeText($attributeToLink)) ?>
+                <?php if (!$product->getIsSalable()): ?>
+                    <span class="bg-tertiary-1"></span>
+                <?php endif; ?>
+
+                <?php if ($product->getIsSalable()): ?>
+                    <?php if ($showAttributeText): ?>
+                        <span class="product-attribute-value">
+                            <?= $escaper->escapeHtml($product->getAttributeText($attributeToLink)) ?>
+                        </span>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <?php if ($showAttributeText): ?>
+                        <span class="product-attribute-value product-attribute-value--disabled">
+                            <?= $escaper->escapeHtml($product->getAttributeText($attributeToLink)) ?>
+                        </span>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>

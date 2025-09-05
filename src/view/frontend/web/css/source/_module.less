@@ -62,6 +62,48 @@
             flex-direction: column;
             margin-top: 10px;
 
+            .attribute-option {
+                display: flex;
+                width: 100%;
+                margin-right: auto;
+                gap: 4px; // giống gap-x-1 (1 * 0.25rem)
+                font-size: 12px;
+                text-transform: capitalize;
+                color: @text__color__muted; // màu xám của Luma
+                overflow-x: hidden;
+                transition: all 0.3s ease;
+
+                .color-label {
+                    width: 100%;
+                }
+
+                .bg-tertiary-1 {
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    background-color: #b83958;
+                    border-radius: 50%;
+                    margin-right: 4px;
+                    vertical-align: middle;
+                }
+
+                &:hover {
+                    color: @text__color__muted;
+                }
+
+                .product-attribute-value {
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 12px;
+                    color: @text__color;
+                    text-transform: capitalize;
+                    transition: all 0.3s ease;
+
+                    &--disabled {
+                        color: @text__color__muted;
+                    }
+                }
+            }
             .mt-auto {
                 margin-top: auto;
             }
