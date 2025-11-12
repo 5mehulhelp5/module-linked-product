@@ -2,7 +2,7 @@
     "name": "sutunam/module-linked-product",
     "description": "Sutunam Linked Product Module",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "require": {
         "magento/framework":"^100|^101|^102|^103",
         "sutunam/module-base": "^1.0",
