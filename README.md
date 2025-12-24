@@ -7,15 +7,43 @@ This improves product discoverability and enhances the shopping experience.
 
 ## 📌 Features
 
-* Link similar products by attributes (e.g., color, size, material).
-* Show linked products on:
+-   Link similar products by attributes (e.g., color, size, material).
+-   Show linked products on:
 
-    * Product Listing Page
-    * Product View Page
-* Display attribute text (e.g., "Color: Red").
-* Display stock status for each linked product.
-* Option to show only the **count** of available linked products instead of listing them.
-* Easy-to-configure backend settings.
+    -   Product Listing Page
+    -   Product View Page
+
+-   Display attribute text (e.g., "Color: Red").
+-   Display stock status for each linked product.
+-   Option to show only the **count** of available linked products instead of listing them.
+-   Easy-to-configure backend settings.
+
+---
+
+## 📦 Installation
+
+### Install via Composer
+
+1. Require the module:
+
+```bash
+composer require sutunam/module-linked-product
+```
+
+2. Enable and upgrade the module:
+
+```bash
+bin/magento module:enable Sutunam_LinkedProduct
+bin/magento setup:upgrade
+bin/magento cache:flush
+```
+
+3. For production mode:
+
+```bash
+bin/magento setup:di:compile
+bin/magento setup:static-content:deploy -f
+```
 
 ---
 
@@ -57,57 +85,6 @@ Enables customization of the text shown when displaying the number of linked pro
 **Product → Related Products, Up-Sells, Cross-Sells and Linked → Linked Products**
 
 ---
-
-## 📦 Installation
-
-### Install via Composer
-
-1. Require the module:
-
-```bash
-composer require sutunam/linked-product
-```
-
-2. Enable and upgrade the module:
-
-```bash
-bin/magento module:enable Sutunam_LinkedProduct
-bin/magento setup:upgrade
-bin/magento cache:flush
-```
-
-3. For production mode:
-
-```bash
-bin/magento setup:di:compile
-bin/magento setup:static-content:deploy -f
-```
-
----
-
-## 📝 Changelog
-
-### 1.0.2
-
-* Using the Gitlab CI from the Sutunam Base module instead.
-* Update license.
-
-### 1.0.1
-
-* Updated documentation.
-
-### 1.0.0
-
-* Initial module release.
-
----
-
-## ✔️ Improvements
-
-* Structured for readability and clarity.
-* Features explained in simple language.
-* Tables used for configuration settings and mapping.
-* Easy-to-follow installation instructions.
 
 ## Development by Sutunam
 
